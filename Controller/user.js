@@ -51,7 +51,6 @@ exports.user_post_signup = (req, res, next) => {
     });
 };
 
-
 exports.user_post_login = (req, res, next) => {
   User.find({ email: req.body.email, phone_number: req.body.phone_number })
     .exec()

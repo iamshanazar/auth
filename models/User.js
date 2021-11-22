@@ -16,7 +16,7 @@ const userSchema = mongoose.Schema({
 		trim: true,
 	},
 	phone_number: {
-		type: Number | String,
+		type: String || Number,
 		required: true,
 	},
 	address: {
@@ -26,7 +26,7 @@ const userSchema = mongoose.Schema({
 	password: {
 		type: String,
 		required: true,
-		minlength: [6, 'password must be 6 character'],
+		minlength: [6, 'Password must be at list 6 character'],
 	},
 });
 

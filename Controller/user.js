@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 exports.user_post_signup = (req, res, next) => {
   User.find({
@@ -47,5 +48,41 @@ exports.user_post_signup = (req, res, next) => {
           }
         });
       }
+    });
+};
+
+exports.user_post_login = (req, res, next) => {
+  User.find({ email: req.body.email, phone_number: req.body.phone_number })
+    .exec()
+    .then((user) => {
+      if (user.length < 1) {
+        return res.status(401).json({
+          message: "Auth failed",
+        });
+      }
+      bcrypt.compare(req.body.password, user[0].password, (err, result) => {
+        if (err) {
+          return res.status(401).json({
+            message: "Auth failed",
+          });
+        }
+        if (result) {
+          const token = jwt.sign(
+            { email: user[0].email },
+            process.env.JWT_KEY,
+            {
+              expiresIn: "1s",
+            }
+          );
+          return res.status(200).json({
+            message: "Auth succesfully",
+          });
+        }
+      });
+    })
+    .catch((err) => {
+      return res.status.json({
+        error: err,
+      });
     });
 };

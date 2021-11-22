@@ -2,21 +2,19 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const userSchema = mongoose.Schema({
-  name: { type: String, required: [true, "name is required"] },
-  lastname: { type: String, required: [true, "lastname is required"] },
+  name: { type: String, required: true },
+  lastname: { type: String, required: true },
   email: {
     type: String,
     // validate: {
     //   validator: function (v) {
     //     return /\S+@\S+\.\S+/.test(v);
     //   },
-    message: "Email is not valid",
   },
-  phone_number: { type: Number, required: [true, "phone_number is required"] },
+  phone_number: { type: Number, required: true },
   password: {
     type: String,
     required: true,
-    minlength: [6, "password must be 6 chracter"],
   },
 });
 

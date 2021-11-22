@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { body, validationResult } = require("express-validator");
 
 exports.user_post_signup = (req, res, next) => {
   User.find({
@@ -11,6 +12,7 @@ exports.user_post_signup = (req, res, next) => {
     email: req.body.email,
     lastname: req.body.lastname,
   })
+
     .exec()
     .then((user) => {
       if (user.length >= 1) {
@@ -32,6 +34,7 @@ exports.user_post_signup = (req, res, next) => {
               phone_number: req.body.phone_number,
               password: hash,
             });
+
             user
               .save()
               .then((result) => {
